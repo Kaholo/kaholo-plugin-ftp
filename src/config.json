@@ -1,0 +1,116 @@
+{
+  "name": "FTP",
+  "type": "executer",
+  "execProgram": "node",
+  "main": "app.js",
+  "imgUrl": "logo.png",
+  "version": "0.0.1",
+  "description": "FTP plugin",
+  "settings":[
+    {
+      "name":"PASSWORD",
+      "viewName":"FTP Password",
+      "type":"vault"
+    }
+  ],
+  "methods": [
+    {
+      "name": "upload",
+      "viewName": "Upload file/folder to FTP server",
+      "params": [
+        {
+          "name": "USER",
+          "viewName": "FTP user",
+          "type": "string"
+        },
+        {
+          "name": "PASSWORD",
+          "viewName": "FTP password",
+          "type": "vault"
+        },
+        {
+          "name": "HOST",
+          "viewName": "FTP host",
+          "type": "string"
+        },
+        {
+          "name": "PORT",
+          "viewName": "FTP port",
+          "type": "string"
+        },
+        {
+          "name": "LOCALFOLDER",
+          "viewName": "Local folder/file",
+          "type": "string"
+        },
+        {
+          "name": "REMOTEFOLDER",
+          "viewName": "Remote file/folder",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "removeDir",
+      "viewName": "Remove folder from FTP server",
+      "params": [
+        {
+          "name": "USER",
+          "viewName": "User",
+          "type": "string"
+        },
+        {
+          "name": "PASSWORD",
+          "viewName": "Password",
+          "type": "vault"
+        },
+        {
+          "name": "HOST",
+          "viewName": "FTP host",
+          "type": "string"
+        },
+        {
+          "name": "PORT",
+          "viewName": "FTP port",
+          "type": "string"
+        },
+        {
+          "name": "REMOTEFOLDER",
+          "viewName": "Remote folder",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "viewName": "Remove file from FTP server",
+      "params": [
+        {
+          "name": "USER",
+          "viewName": "User",
+          "type": "string"
+        },
+        {
+          "name": "PASSWORD",
+          "viewName": "Password",
+          "type": "vault"
+        },
+        {
+          "name": "HOST",
+          "viewName": "FTP host",
+          "type": "string"
+        },
+        {
+          "name": "PORT",
+          "viewName": "FTP port",
+          "type": "string"
+        },
+        {
+          "name": "REMOTEFILE",
+          "viewName": "Remote file",
+          "type": "string"
+        }
+      ]
+    }
+  ]
+}
