@@ -54,8 +54,8 @@ function remove(action, settings) {
 
 function removeDir(action, settings) {
     let host = action.params.HOST;
-    let user = action.params.USER || settings.USER;
-    let password = action.params.PASSWORD || settings.PASSWORD;
+    let user = action.params.USER;
+    let password = settings.PASSWORD;
     let secure = "true";
     let port = action.params.PORT;
     let remotePath = action.params.REMOTEFOLDER;
@@ -70,8 +70,8 @@ function removeDir(action, settings) {
 
 function remove(action, settings) {
     let host = action.params.HOST;
-    let user = action.params.USER || settings.USER;
-    let password = action.params.PASSWORD || settings.PASSWORD;
+    let user = action.params.USER;
+    let password = settings.PASSWORD;
     let secure = "true";
     let port = action.params.PORT;
     let remotePath = action.params.REMOTEFILE;
@@ -84,26 +84,8 @@ function remove(action, settings) {
     })
 }
 
-function download(action, settings) {
-    let host = action.params.HOST;
-    let user = action.params.USER || settings.USER;
-    let password = action.params.PASSWORD || settings.PASSWORD;
-    let secure = "true";
-    let port = action.params.PORT;
-    let remotePath = action.params.REMOTEFILE;
-    let localPath = action.params.LOCALPATH;
-    var client = new ftp.Client();
-    client.ftp.verbose = true;
-    client.access({host: host, user: user, password: password, port: port, secure: secure}).then(function () {
-        return client.download(fs.createWriteStream(localPath), remotePath).then(function () {
-            client.close()
-        })
-    })
-}
-
 module.exports = {
     upload: upload,
     remove: remove,
-    removeDir: removeDir,
-    download: download
+    removeDir: removeDir
 }
