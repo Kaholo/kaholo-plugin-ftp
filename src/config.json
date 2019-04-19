@@ -111,42 +111,6 @@
           "type": "string"
         }
       ]
-    },
-    {
-      "name": "download",
-      "viewName": "Download file from remote server",
-      "params": [
-        {
-          "name": "USER",
-          "viewName": "User",
-          "type": "string"
-        },
-        {
-          "name": "PASSWORD",
-          "viewName": "Password",
-          "type": "vault"
-        },
-        {
-          "name": "HOST",
-          "viewName": "FTP host",
-          "type": "string"
-        },
-        {
-          "name": "PORT",
-          "viewName": "FTP port",
-          "type": "string"
-        },
-        {
-          "name": "REMOTEFILE",
-          "viewName": "Remote file",
-          "type": "string"
-        },
-        {
-          "name": "LOCALPATH",
-          "viewName": "Local path",
-          "type": "string"
-        }
-      ]
     }
   ]
 }
