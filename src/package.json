@@ -1,0 +1,16 @@
+{
+  "name": "ftp_plugin",
+  "version": "0.0.1",
+  "main": "app.js",
+  "dependencies": {
+    "basic-ftp": "3.4.3",
+    "fs": "0.0.1-security"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
