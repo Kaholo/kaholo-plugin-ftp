@@ -1,79 +1,46 @@
-var ftp = require('basic-ftp');
-var fs = require('fs');
+const { getOptions, runFtpFunction } = require('./helpers');
+const fs = require('fs');
+const path = require('path');
 
-function _options(action, settings) {
-    return {
-        host: action.params.HOST,
-        user: action.params.USER || settings.USER,
-        password: action.params.PASSWORD || settings.PASSWORD,
-        port: action.params.PORT,
-        secure: 'true'
-    }
-}
+async function upload(action, settings) {
+    const options = getOptions(action, settings);
+    const localPath = action.params.localPath;
+    const remotePath = action.params.remotePath;
+    const stats = fs.statSync(localPath);
+    const remoteDir = stats.isDirectory() ? remotePath : path.dirname(remotePath);
+    
+    const ftpFunc = client => client.ensureDir(remoteDir).then(
+        stats.isDirectory() ? 
+        () => client.uploadDir(localPath, remotePath) :
+        () => client.uploadFrom(localPath, remotePath));
 
-function upload(action, settings) {
-    let options = _options(action, settings);
-    let localPath = action.params.LOCALFOLDER;
-    let remotePath = action.params.REMOTEFOLDER;
-    var client = new ftp.Client();
-    client.ftp.verbose = true;
-    return client.access(options).then(function () {
-        let stats = fs.statSync(localPath);
-        if (stats.isDirectory()) {
-            return client.ensureDir(remotePath).then(function () {
-                return client.uploadDir(localPath).then(function () {
-                    client.close()
-                })
-        })
-        } else {
-            return client.upload(fs.createReadStream(localPath), remotePath).then(function () {
-                client.close()
-            })
-        }
-    })
+    return runFtpFunction(options, ftpFunc);
 }
 
 
-function removeDir(action, settings) {
-    let options = _options(action, settings);
-    let remotePath = action.params.REMOTEFOLDER;
-    var client = new ftp.Client();
-    client.ftp.verbose = true;
-    return client.access(options).then(function () {
-        return client.removeDir(remotePath).then(function () {
-                client.close()
-            })
-    })
+async function removeDir(action, settings) {
+    const options = getOptions(action, settings);
+    const remotePath = action.params.remotePath;
+    return runFtpFunction(options, client => client.removeDir(remotePath));
 }
 
-function removeFile(action, settings) {
-    let options = _options(action, settings);
-    let remotePath = action.params.REMOTEFILE;
-    var client = new ftp.Client();
-    client.ftp.verbose = true;
-    return client.access(options).then(function () {
-        return client.remove(remotePath).then(function () {
-                client.close()
-        })
-    })
+async function removeFile(action, settings) {
+    const options = getOptions(action, settings);
+    const remotePath = action.params.remotePath;
+    return runFtpFunction(options, client => client.remove(remotePath));
 }
 
-function download(action, settings) {
-    let options = _options(action, settings);
-    let localPath = action.params.LOCALPATH;
-    let remotePath = action.params.REMOTEFILE;
-    var client = new ftp.Client();
-    client.ftp.verbose = true;
-    return client.access(options).then(function () {
-        return client.download(fs.createWriteStream(localPath), remotePath).then(function () {
-            client.close()
-        })
-    })
+async function download(action, settings) {
+    const options = getOptions(action, settings);
+    const localPath = action.params.localPath;
+    const remotePath = action.params.remotePath;
+
+    return runFtpFunction(options, client => client.downloadTo(localPath, remotePath));
 }
 
 module.exports = {
-    upload: upload,
-    removeFile: removeFile,
-    removeDir: removeDir,
-    download: download
+    upload,
+    remove: removeFile,
+    removeDir,
+    download
 }
