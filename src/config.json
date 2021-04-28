@@ -4,7 +4,7 @@
   "execProgram": "node",
   "main": "app.js",
   "imgUrl": "logo.png",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "FTP plugin",
   "settings":[
     {
@@ -66,39 +66,8 @@
       ]
     },
     {
-      "name": "removeDir",
-      "viewName": "Remove Folder",
-      "params": [
-        {
-          "name": "username",
-          "viewName": "Username",
-          "type": "string"
-        },
-        {
-          "name": "password",
-          "viewName": "Password",
-          "type": "vault"
-        },
-        {
-          "name": "host",
-          "viewName": "Host",
-          "type": "string"
-        },
-        {
-          "name": "port",
-          "viewName": "Port",
-          "type": "string"
-        },
-        {
-          "name": "remotePath",
-          "viewName": "Remote Folder Path",
-          "type": "string"
-        }
-      ]
-    },
-    {
       "name": "remove",
-      "viewName": "Remove File",
+      "viewName": "Remove File/Folder",
       "params": [
         {
           "name": "username",
@@ -122,13 +91,13 @@
         },
         {
           "name": "remotePath",
-          "viewName": "Remote File Path",
+          "viewName": "Remote Path",
           "type": "string"
         }
       ]
     },
     {
-      "name": "download",
+      "name": "downloadFile",
       "viewName": "Download File",
       "params": [
         {
@@ -159,6 +128,73 @@
         {
           "name": "localPath",
           "viewName": "Local File Path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "downloadDir",
+      "viewName": "Download Fodler",
+      "params": [
+        {
+          "name": "username",
+          "viewName": "Username",
+          "type": "string"
+        },
+        {
+          "name": "password",
+          "viewName": "Password",
+          "type": "vault"
+        },
+        {
+          "name": "host",
+          "viewName": "Host",
+          "type": "string"
+        },
+        {
+          "name": "port",
+          "viewName": "Port",
+          "type": "string"
+        },
+        {
+          "name": "remotePath",
+          "viewName": "Remote Folder Path",
+          "type": "string"
+        },
+        {
+          "name": "localPath",
+          "viewName": "Local Folder Path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "viewName": "List",
+      "params": [
+        {
+          "name": "username",
+          "viewName": "Username",
+          "type": "string"
+        },
+        {
+          "name": "password",
+          "viewName": "Password",
+          "type": "vault"
+        },
+        {
+          "name": "host",
+          "viewName": "Host",
+          "type": "string"
+        },
+        {
+          "name": "port",
+          "viewName": "Port",
+          "type": "string"
+        },
+        {
+          "name": "remotePath",
+          "viewName": "Remote Path",
           "type": "string"
         }
       ]
