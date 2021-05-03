@@ -4,7 +4,7 @@
   "execProgram": "node",
   "main": "app.js",
   "imgUrl": "logo.png",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "FTP plugin",
   "settings":[
     {
@@ -93,6 +93,11 @@
           "name": "remotePath",
           "viewName": "Remote Path",
           "type": "string"
+        },
+        {
+          "name": "isDir",
+          "viewName": "Is Folder?",
+          "type": "boolean"
         }
       ]
     },

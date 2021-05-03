@@ -28,6 +28,7 @@ Delete a file or folder from the specified FTP server.
 3. Host (String) **Optional** - The address of the FTP server to connect to.
 4. Port (String) **Optional** - The port of the FTP server to connect to.
 5. Remote Path (String) **Required** - The path of the file/folder to delete.
+6. Is Folder (Boolean) **Optional** - Is a directory or a single file. Default is false.
 
 ## Method: Download File
 Download a file from the FTP server.
