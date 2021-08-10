@@ -20,9 +20,9 @@ async function upload(action, settings) {
 
 async function remove(action, settings) {
     const options = getOptions(action, settings);
-    const {remotePath, isDir} = action.params;
+    const {remotePath, objType} = action.params;
     
-    const ftpFunc = isDir ? client => client.removeDir(remotePath) : 
+    const ftpFunc = (objType == "Folder") ? client => client.removeDir(remotePath) : 
         client => client.remove(remotePath);
     return runFtpFunction(options, ftpFunc);
 }
