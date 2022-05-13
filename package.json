@@ -3,13 +3,19 @@
   "version": "1.1.2",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "npx eslint .",
+    "lint:fix": "npx eslint . --fix"
   },
   "author": "Kaholo Team",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "basic-ftp": "^4.6.6",
-    "fs-extra": "^9.1.0"
+    "basic-ftp": "4.6.6",
+    "fs-extra": "9.1.0"
+  },
+  "devDependencies": {
+    "eslint": "8.15.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-plugin-import": "2.26.0"
   }
 }
