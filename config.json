@@ -113,8 +113,8 @@
       ]
     },
     {
-      "name": "downloadFile",
-      "viewName": "Download File",
+      "name": "download",
+      "viewName": "Download File/Folder",
       "params": [
         {
           "name": "username",
@@ -145,42 +145,21 @@
           "name": "localPath",
           "viewName": "Local File Path",
           "type": "string"
-        }
-      ]
-    },
-    {
-      "name": "downloadDir",
-      "viewName": "Download Folder",
-      "params": [
-        {
-          "name": "username",
-          "viewName": "Username",
-          "type": "string"
         },
         {
-          "name": "password",
-          "viewName": "Password",
-          "type": "vault"
-        },
-        {
-          "name": "host",
-          "viewName": "Host",
-          "type": "string"
-        },
-        {
-          "name": "port",
-          "viewName": "Port",
-          "type": "string"
-        },
-        {
-          "name": "remotePath",
-          "viewName": "Remote Folder Path",
-          "type": "string"
-        },
-        {
-          "name": "localPath",
-          "viewName": "Local Folder Path",
-          "type": "string"
+          "name": "objType",
+          "viewName": "Type",
+          "type": "options",
+          "options": [
+            {
+              "id": "Folder",
+              "name": "Folder"
+            },
+            {
+              "id": "File",
+              "name": "File"
+            }
+          ]
         }
       ]
     },

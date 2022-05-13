@@ -1,63 +1,71 @@
 const fs = require("fs-extra");
 const path = require("path");
-const { getOptions, runFtpFunction } = require("./helpers");
+const { mapConnectOptions, runCallbackWithFtpClient } = require("./helpers");
 
 async function upload(action, settings) {
-  const options = getOptions(action, settings);
+  const connectOptions = mapConnectOptions(action, settings);
   const { localPath, remotePath } = action.params;
 
-  const stats = fs.statSync(localPath);
-  const remoteDir = stats.isDirectory() ? remotePath : path.dirname(remotePath);
+  const pathStat = await fs.promises.stat(localPath);
+  const remoteDirectory = pathStat.isDirectory() ? remotePath : path.dirname(remotePath);
 
-  const ftpFunc = async (client) => {
-    await client.ensureDir(remoteDir);
-    return stats.isDirectory()
+  const ftpCallback = async (client) => {
+    await client.ensureDir(remoteDirectory);
+
+    return pathStat.isDirectory()
       ? client.uploadFromDir(localPath)
       : client.uploadFrom(localPath, path.basename(remotePath));
   };
 
-  return runFtpFunction(options, ftpFunc);
+  return runCallbackWithFtpClient(connectOptions, ftpCallback);
 }
 
 async function remove(action, settings) {
-  const options = getOptions(action, settings);
+  const connectOptions = mapConnectOptions(action, settings);
   const { remotePath, objType } = action.params;
 
-  const ftpFunc = (
+  const ftpCallback = (
     (objType === "Folder")
       ? (client) => client.removeDir(remotePath)
       : (client) => client.remove(remotePath)
   );
-  return runFtpFunction(options, ftpFunc);
+  return runCallbackWithFtpClient(connectOptions, ftpCallback);
 }
 
-async function downloadFile(action, settings) {
-  const options = getOptions(action, settings);
-  const { localPath, remotePath } = action.params;
+async function download(action, settings) {
+  const connectOptions = mapConnectOptions(action, settings);
+  const {
+    localPath,
+    remotePath,
+    objType,
+  } = action.params;
 
-  fs.ensureDirSync(path.dirname(localPath));
-  return runFtpFunction(options, (client) => client.downloadTo(localPath, remotePath));
-}
+  await fs.ensureDir(path.dirname(localPath));
 
-async function downloadDir(action, settings) {
-  const options = getOptions(action, settings);
-  const { localPath, remotePath } = action.params;
-
-  fs.ensureDirSync(localPath);
-  return runFtpFunction(options, (client) => client.downloadToDir(localPath, remotePath));
+  const ftpCallback = (
+    (objType === "Folder")
+      ? (client) => client.downloadToDir(remotePath)
+      : (client) => client.downloadTo(remotePath)
+  );
+  return runCallbackWithFtpClient(
+    connectOptions,
+    ftpCallback,
+  );
 }
 
 async function list(action, settings) {
-  const options = getOptions(action, settings);
+  const connectOptions = mapConnectOptions(action, settings);
   const { remotePath } = action.params;
 
-  return runFtpFunction(options, (client) => client.list(remotePath));
+  return runCallbackWithFtpClient(
+    connectOptions,
+    (client) => client.list(remotePath),
+  );
 }
 
 module.exports = {
   upload,
   remove,
-  downloadFile,
-  downloadDir,
+  download,
   list,
 };

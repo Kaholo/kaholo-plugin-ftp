@@ -1,33 +1,37 @@
 const ftp = require("basic-ftp");
 
-function getOptions(action, settings) {
+const DEFAULT_FTP_PORT = 21;
+
+function mapConnectOptions(action, settings) {
   const user = action.params.username || settings.username;
   const opts = {
     host: action.params.host || settings.host,
-    port: action.params.port || settings.port || "21",
+    port: action.params.port || settings.port || DEFAULT_FTP_PORT,
     password: action.params.password || settings.password,
     secure: "true",
   };
+
   if (user) {
     opts.user = user;
   }
+
   return opts;
 }
 
-async function runFtpFunction(options, ftpFunc) {
+async function runCallbackWithFtpClient(connectOptions, callback) {
   const client = new ftp.Client();
   client.ftp.verbose = true;
-  await client.access(options);
+
+  await client.access(connectOptions);
+
   try {
-    await ftpFunc(client);
-  } catch (err) {
+    await callback(client);
+  } finally {
     await client.close();
-    throw err;
   }
-  return client.close();
 }
 
 module.exports = {
-  getOptions,
-  runFtpFunction,
+  mapConnectOptions,
+  runCallbackWithFtpClient,
 };
