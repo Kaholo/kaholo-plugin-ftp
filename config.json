@@ -1,5 +1,6 @@
 {
   "name": "FTP",
+  "viewName": "FTP",
   "type": "executer",
   "execProgram": "node",
   "main": "app.js",
@@ -149,7 +150,7 @@
     },
     {
       "name": "downloadDir",
-      "viewName": "Download Fodler",
+      "viewName": "Download Folder",
       "params": [
         {
           "name": "username",
