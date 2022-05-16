@@ -1,37 +1,47 @@
 const ftp = require("basic-ftp");
+const path = require("path");
 
-const DEFAULT_FTP_PORT = 21;
-
-function mapConnectOptions(action, settings) {
-  const user = action.params.username || settings.username;
-  const opts = {
-    host: action.params.host || settings.host,
-    port: action.params.port || settings.port || DEFAULT_FTP_PORT,
-    password: action.params.password || settings.password,
-    secure: "true",
+function mapConnectOptions(params) {
+  const connectOptions = {
+    host: params.host,
+    port: params.port,
+    password: params.password,
+    secure: params.useTls,
+    verbose: params.verboseMode,
   };
 
+  const user = params.username;
   if (user) {
-    opts.user = user;
+    connectOptions.user = user;
   }
 
-  return opts;
+  return connectOptions;
 }
 
 async function runCallbackWithFtpClient(connectOptions, callback) {
   const client = new ftp.Client();
-  client.ftp.verbose = true;
+  if (connectOptions.verbose) {
+    client.ftp.verbose = true;
+  }
 
   await client.access(connectOptions);
 
   try {
-    await callback(client);
+    return await callback(client);
   } finally {
     await client.close();
   }
 }
 
+async function getRemotePathStat(ftpClient, remotePath) {
+  const listResult = await ftpClient.list(path.dirname(remotePath));
+  return listResult.find(
+    (fileResult) => fileResult.name === path.basename(remotePath),
+  );
+}
+
 module.exports = {
   mapConnectOptions,
   runCallbackWithFtpClient,
+  getRemotePathStat,
 };

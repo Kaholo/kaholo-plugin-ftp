@@ -1,12 +1,19 @@
 const fs = require("fs-extra");
 const path = require("path");
-const { mapConnectOptions, runCallbackWithFtpClient } = require("./helpers");
+const kaholoPluginLibrary = require("kaholo-plugin-library");
+const { mapConnectOptions, runCallbackWithFtpClient, getRemotePathStat } = require("./helpers");
 
-async function upload(action, settings) {
-  const connectOptions = mapConnectOptions(action, settings);
-  const { localPath, remotePath } = action.params;
+async function upload(params) {
+  const connectOptions = mapConnectOptions(params);
+  const { localPath, remotePath } = params;
 
-  const pathStat = await fs.promises.stat(localPath);
+  let pathStat;
+  try {
+    pathStat = await fs.stat(localPath);
+  } catch {
+    throw new Error(`Path ${localPath} does not exist on the agent.`);
+  }
+
   const remoteDirectory = pathStat.isDirectory() ? remotePath : path.dirname(remotePath);
 
   const ftpCallback = async (client) => {
@@ -14,48 +21,56 @@ async function upload(action, settings) {
 
     return pathStat.isDirectory()
       ? client.uploadFromDir(localPath)
-      : client.uploadFrom(localPath, path.basename(remotePath));
+      : client.uploadFrom(localPath, remotePath);
   };
 
   return runCallbackWithFtpClient(connectOptions, ftpCallback);
 }
 
-async function remove(action, settings) {
-  const connectOptions = mapConnectOptions(action, settings);
-  const { remotePath, objType } = action.params;
+async function remove(params) {
+  const connectOptions = mapConnectOptions(params);
+  const { remotePath } = params;
 
-  const ftpCallback = (
-    (objType === "Folder")
-      ? (client) => client.removeDir(remotePath)
-      : (client) => client.remove(remotePath)
-  );
+  const ftpCallback = async (client) => {
+    const remotePathStat = await getRemotePathStat(client, remotePath);
+    if (!remotePathStat) {
+      throw new Error(`Path ${remotePath} does not exist on the server.`);
+    }
+
+    return remotePathStat.isDirectory
+      ? client.removeDir(remotePath)
+      : client.remove(remotePath);
+  };
+
   return runCallbackWithFtpClient(connectOptions, ftpCallback);
 }
 
-async function download(action, settings) {
-  const connectOptions = mapConnectOptions(action, settings);
-  const {
-    localPath,
-    remotePath,
-    objType,
-  } = action.params;
+async function download(params) {
+  const connectOptions = mapConnectOptions(params);
+  const { localPath, remotePath } = params;
 
   await fs.ensureDir(path.dirname(localPath));
 
-  const ftpCallback = (
-    (objType === "Folder")
-      ? (client) => client.downloadToDir(remotePath)
-      : (client) => client.downloadTo(remotePath)
-  );
+  const ftpCallback = async (client) => {
+    const remotePathStat = await getRemotePathStat(client, remotePath);
+    if (!remotePathStat) {
+      throw new Error(`Path ${remotePath} does not exist on the server.`);
+    }
+
+    return remotePathStat.isDirectory
+      ? client.downloadToDir(localPath, remotePath)
+      : client.downloadTo(localPath, remotePath);
+  };
+
   return runCallbackWithFtpClient(
     connectOptions,
     ftpCallback,
   );
 }
 
-async function list(action, settings) {
-  const connectOptions = mapConnectOptions(action, settings);
-  const { remotePath } = action.params;
+async function list(params) {
+  const connectOptions = mapConnectOptions(params);
+  const { remotePath } = params;
 
   return runCallbackWithFtpClient(
     connectOptions,
@@ -63,9 +78,9 @@ async function list(action, settings) {
   );
 }
 
-module.exports = {
+module.exports = kaholoPluginLibrary.bootstrap({
   upload,
   remove,
   download,
   list,
-};
+});
