@@ -1,0 +1,21 @@
+{
+  "name": "kaholo-plugin-ftp",
+  "main": "app.js",
+  "scripts": {
+    "lint": "npx eslint .",
+    "lint:fix": "npx eslint . --fix"
+  },
+  "author": "Kaholo Team",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "basic-ftp": "4.6.6",
+    "fs-extra": "9.1.0",
+    "kaholo-plugin-library": "github:Kaholo/kaholo-plugin-library#v1.0.3"
+  },
+  "devDependencies": {
+    "eslint": "8.15.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-plugin-import": "2.26.0"
+  }
+}

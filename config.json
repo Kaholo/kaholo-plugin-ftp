@@ -1,10 +1,11 @@
 {
   "name": "FTP",
+  "viewName": "FTP",
   "type": "executer",
   "execProgram": "node",
   "main": "app.js",
   "imgUrl": "logo.png",
-  "version": "1.1.4",
+  "version": "2.0.0",
   "description": "FTP plugin",
   "settings": [
     {
@@ -25,13 +26,13 @@
     {
       "name": "port",
       "viewName": "Port",
-      "type": "string"
+      "type": "int"
     }
   ],
   "methods": [
     {
       "name": "upload",
-      "viewName": "Upload File/Folder",
+      "viewName": "Upload",
       "params": [
         {
           "name": "username",
@@ -51,7 +52,8 @@
         {
           "name": "port",
           "viewName": "Port",
-          "type": "string"
+          "type": "int",
+          "default": 21
         },
         {
           "name": "localPath",
@@ -62,12 +64,25 @@
           "name": "remotePath",
           "viewName": "Remote Path",
           "type": "string"
+        },
+        {
+          "name": "useTls",
+          "viewName": "Use FTP over TLS",
+          "description": "Connect to the FTP server using TLS protocol.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "name": "verboseMode",
+          "viewName": "Verbose Mode",
+          "description": "Display verbose log messages providing additional FTP connection info.",
+          "type": "boolean"
         }
       ]
     },
     {
       "name": "remove",
-      "viewName": "Remove File/Folder",
+      "viewName": "Remove",
       "params": [
         {
           "name": "username",
@@ -87,7 +102,8 @@
         {
           "name": "port",
           "viewName": "Port",
-          "type": "string"
+          "type": "int",
+          "default": 21
         },
         {
           "name": "remotePath",
@@ -95,25 +111,23 @@
           "type": "string"
         },
         {
-          "name": "objType",
-          "viewName": "Type",
-          "type": "options",
-          "options": [
-            {
-              "id": "Folder",
-              "name": "Folder"
-            },
-            {
-              "id": "File",
-              "name": "File"
-            }
-          ]
+          "name": "useTls",
+          "viewName": "Use FTP over TLS",
+          "description": "Connect to the FTP server using TLS protocol.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "name": "verboseMode",
+          "viewName": "Verbose Mode",
+          "description": "Display verbose log messages providing additional FTP connection info.",
+          "type": "boolean"
         }
       ]
     },
     {
-      "name": "downloadFile",
-      "viewName": "Download File",
+      "name": "download",
+      "viewName": "Download",
       "params": [
         {
           "name": "username",
@@ -133,7 +147,8 @@
         {
           "name": "port",
           "viewName": "Port",
-          "type": "string"
+          "type": "int",
+          "default": 21
         },
         {
           "name": "remotePath",
@@ -144,42 +159,19 @@
           "name": "localPath",
           "viewName": "Local File Path",
           "type": "string"
-        }
-      ]
-    },
-    {
-      "name": "downloadDir",
-      "viewName": "Download Fodler",
-      "params": [
-        {
-          "name": "username",
-          "viewName": "Username",
-          "type": "string"
         },
         {
-          "name": "password",
-          "viewName": "Password",
-          "type": "vault"
+          "name": "useTls",
+          "viewName": "Use FTP over TLS",
+          "description": "Connect to the FTP server using TLS protocol.",
+          "type": "boolean",
+          "default": true
         },
         {
-          "name": "host",
-          "viewName": "Host",
-          "type": "string"
-        },
-        {
-          "name": "port",
-          "viewName": "Port",
-          "type": "string"
-        },
-        {
-          "name": "remotePath",
-          "viewName": "Remote Folder Path",
-          "type": "string"
-        },
-        {
-          "name": "localPath",
-          "viewName": "Local Folder Path",
-          "type": "string"
+          "name": "verboseMode",
+          "viewName": "Verbose Mode",
+          "description": "Display verbose log messages providing additional FTP connection info.",
+          "type": "boolean"
         }
       ]
     },
@@ -205,12 +197,26 @@
         {
           "name": "port",
           "viewName": "Port",
-          "type": "string"
+          "type": "int",
+          "default": 21
         },
         {
           "name": "remotePath",
           "viewName": "Remote Path",
           "type": "string"
+        },
+        {
+          "name": "useTls",
+          "viewName": "Use FTP over TLS",
+          "description": "Connect to the FTP server using TLS protocol.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "name": "verboseMode",
+          "viewName": "Verbose Mode",
+          "description": "Display verbose log messages providing additional FTP connection info.",
+          "type": "boolean"
         }
       ]
     }
