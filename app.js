@@ -1,10 +1,10 @@
 const fs = require("fs-extra");
 const path = require("path");
 const kaholoPluginLibrary = require("kaholo-plugin-library");
-const { mapConnectOptions, runCallbackWithFtpClient, getRemotePathStat } = require("./helpers");
+const { mapParamsToConnectionOptions, runCallbackWithFtpClient, getRemotePathStat } = require("./helpers");
 
 async function upload(params) {
-  const connectOptions = mapConnectOptions(params);
+  const connectOptions = mapParamsToConnectionOptions(params);
   const { localPath, remotePath } = params;
 
   let pathStat;
@@ -16,7 +16,7 @@ async function upload(params) {
 
   const remoteDirectory = pathStat.isDirectory() ? remotePath : path.dirname(remotePath);
 
-  const ftpCallback = async (client) => {
+  const uploadWithFtpClient = async (client) => {
     await client.ensureDir(remoteDirectory);
 
     return pathStat.isDirectory()
@@ -24,14 +24,14 @@ async function upload(params) {
       : client.uploadFrom(localPath, remotePath);
   };
 
-  return runCallbackWithFtpClient(connectOptions, ftpCallback);
+  return runCallbackWithFtpClient(connectOptions, uploadWithFtpClient);
 }
 
 async function remove(params) {
-  const connectOptions = mapConnectOptions(params);
+  const connectOptions = mapParamsToConnectionOptions(params);
   const { remotePath } = params;
 
-  const ftpCallback = async (client) => {
+  const removeWithFtpClient = async (client) => {
     const remotePathStat = await getRemotePathStat(client, remotePath);
     if (!remotePathStat) {
       throw new Error(`Path ${remotePath} does not exist on the server.`);
@@ -42,16 +42,16 @@ async function remove(params) {
       : client.remove(remotePath);
   };
 
-  return runCallbackWithFtpClient(connectOptions, ftpCallback);
+  return runCallbackWithFtpClient(connectOptions, removeWithFtpClient);
 }
 
 async function download(params) {
-  const connectOptions = mapConnectOptions(params);
+  const connectOptions = mapParamsToConnectionOptions(params);
   const { localPath, remotePath } = params;
 
   await fs.ensureDir(path.dirname(localPath));
 
-  const ftpCallback = async (client) => {
+  const downloadWithFtpClient = async (client) => {
     const remotePathStat = await getRemotePathStat(client, remotePath);
     if (!remotePathStat) {
       throw new Error(`Path ${remotePath} does not exist on the server.`);
@@ -64,12 +64,12 @@ async function download(params) {
 
   return runCallbackWithFtpClient(
     connectOptions,
-    ftpCallback,
+    downloadWithFtpClient,
   );
 }
 
 async function list(params) {
-  const connectOptions = mapConnectOptions(params);
+  const connectOptions = mapParamsToConnectionOptions(params);
   const { remotePath } = params;
 
   return runCallbackWithFtpClient(

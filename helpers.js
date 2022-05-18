@@ -1,7 +1,7 @@
 const ftp = require("basic-ftp");
 const path = require("path");
 
-function mapConnectOptions(params) {
+function mapParamsToConnectionOptions(params) {
   const connectOptions = {
     host: params.host,
     port: params.port,
@@ -18,13 +18,13 @@ function mapConnectOptions(params) {
   return connectOptions;
 }
 
-async function runCallbackWithFtpClient(connectOptions, callback) {
+async function runCallbackWithFtpClient(connectionOptions, callback) {
   const client = new ftp.Client();
-  if (connectOptions.verbose) {
+  if (connectionOptions.verbose) {
     client.ftp.verbose = true;
   }
 
-  await client.access(connectOptions);
+  await client.access(connectionOptions);
 
   try {
     return await callback(client);
@@ -41,7 +41,7 @@ async function getRemotePathStat(ftpClient, remotePath) {
 }
 
 module.exports = {
-  mapConnectOptions,
+  mapParamsToConnectionOptions,
   runCallbackWithFtpClient,
   getRemotePathStat,
 };
