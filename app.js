@@ -1,7 +1,7 @@
 const fs = require("fs-extra");
 const path = require("path");
 const kaholoPluginLibrary = require("kaholo-plugin-library");
-const { mapParamsToConnectionOptions, runCallbackWithFtpClient, getRemotePathStat } = require("./helpers");
+const { mapParamsToConnectionOptions, runCallbackWithFtpClient, getRemotePathStat } = require("./ftp-functions");
 
 async function upload(params) {
   const connectOptions = mapParamsToConnectionOptions(params);
