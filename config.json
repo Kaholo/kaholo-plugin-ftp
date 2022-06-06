@@ -5,8 +5,20 @@
   "execProgram": "node",
   "main": "app.js",
   "imgUrl": "logo.png",
-  "version": "2.0.0",
-  "description": "FTP plugin",
+  "version": "2.0.1",
+  "description": "File Transfer Protocol (FTP)",
+  "category": [
+    "Basic Tools"
+  ],
+  "keywords": [
+    "file",
+    "sftp",
+    "ftp",
+    "transfer",
+    "protocol",
+    "upload",
+    "download"
+  ],
   "settings": [
     {
       "name": "username",
@@ -220,9 +232,5 @@
         }
       ]
     }
-  ],
-  "category": [
-    "FILES",
-    "CORE"
   ]
 }
