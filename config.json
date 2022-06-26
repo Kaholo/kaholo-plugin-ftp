@@ -19,54 +19,37 @@
     "upload",
     "download"
   ],
-  "settings": [
-    {
-      "name": "username",
-      "viewName": "Username",
-      "type": "string"
-    },
-    {
-      "name": "password",
-      "viewName": "Password",
-      "type": "vault"
-    },
-    {
-      "name": "host",
-      "viewName": "Host",
-      "type": "string"
-    },
-    {
-      "name": "port",
-      "viewName": "Port",
-      "type": "int"
-    }
-  ],
+  "auth": {
+    "authId": "ftpAccount",
+    "params": [
+      {
+        "name": "username",
+        "viewName": "Username",
+        "type": "string"
+      },
+      {
+        "name": "password",
+        "viewName": "Password",
+        "type": "vault"
+      },
+      {
+        "name": "host",
+        "viewName": "Host",
+        "type": "string"
+      },
+      {
+        "name": "port",
+        "viewName": "Port",
+        "type": "int",
+        "default": 21
+      }
+    ]
+  },
   "methods": [
     {
       "name": "upload",
       "viewName": "Upload",
       "params": [
-        {
-          "name": "username",
-          "viewName": "Username",
-          "type": "string"
-        },
-        {
-          "name": "password",
-          "viewName": "Password",
-          "type": "vault"
-        },
-        {
-          "name": "host",
-          "viewName": "Host",
-          "type": "string"
-        },
-        {
-          "name": "port",
-          "viewName": "Port",
-          "type": "int",
-          "default": 21
-        },
         {
           "name": "localPath",
           "viewName": "Local Path",
@@ -97,27 +80,6 @@
       "viewName": "Remove",
       "params": [
         {
-          "name": "username",
-          "viewName": "Username",
-          "type": "string"
-        },
-        {
-          "name": "password",
-          "viewName": "Password",
-          "type": "vault"
-        },
-        {
-          "name": "host",
-          "viewName": "Host",
-          "type": "string"
-        },
-        {
-          "name": "port",
-          "viewName": "Port",
-          "type": "int",
-          "default": 21
-        },
-        {
           "name": "remotePath",
           "viewName": "Remote Path",
           "type": "string"
@@ -141,27 +103,6 @@
       "name": "download",
       "viewName": "Download",
       "params": [
-        {
-          "name": "username",
-          "viewName": "Username",
-          "type": "string"
-        },
-        {
-          "name": "password",
-          "viewName": "Password",
-          "type": "vault"
-        },
-        {
-          "name": "host",
-          "viewName": "Host",
-          "type": "string"
-        },
-        {
-          "name": "port",
-          "viewName": "Port",
-          "type": "int",
-          "default": 21
-        },
         {
           "name": "remotePath",
           "viewName": "Remote File Path",
@@ -191,27 +132,6 @@
       "name": "list",
       "viewName": "List",
       "params": [
-        {
-          "name": "username",
-          "viewName": "Username",
-          "type": "string"
-        },
-        {
-          "name": "password",
-          "viewName": "Password",
-          "type": "vault"
-        },
-        {
-          "name": "host",
-          "viewName": "Host",
-          "type": "string"
-        },
-        {
-          "name": "port",
-          "viewName": "Port",
-          "type": "int",
-          "default": 21
-        },
         {
           "name": "remotePath",
           "viewName": "Remote Path",
