@@ -9,7 +9,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@kaholo/plugin-library": "^2.0.0",
+    "@kaholo/plugin-library": "^2.4.0",
     "basic-ftp": "4.6.6",
     "fs-extra": "9.1.0"
   },
