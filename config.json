@@ -5,8 +5,8 @@
   "execProgram": "node",
   "main": "app.js",
   "imgUrl": "logo.png",
-  "version": "2.1.1",
-  "description": "File Transfer Protocol (FTP)",
+  "version": "2.1.2",
+  "description": "File Transfer Protocol",
   "category": [
     "Basic Tools"
   ],
