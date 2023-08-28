@@ -5,23 +5,19 @@ const { mapParamsToConnectionOptions, runCallbackWithFtpClient, getRemotePathSta
 
 async function upload(params) {
   const connectOptions = mapParamsToConnectionOptions(params);
-  const { localPath, remotePath } = params;
+  const {
+    localPath,
+    remotePath,
+  } = params;
 
-  let pathStat;
-  try {
-    pathStat = await fs.stat(localPath);
-  } catch {
-    throw new Error(`Path ${localPath} does not exist on the agent.`);
-  }
-
-  const remoteDirectory = pathStat.isDirectory() ? remotePath : path.dirname(remotePath);
+  const remoteDirectory = localPath.type === "directory" ? remotePath : path.dirname(remotePath);
 
   const uploadWithFtpClient = async (client) => {
     await client.ensureDir(remoteDirectory);
 
-    return pathStat.isDirectory()
-      ? client.uploadFromDir(localPath)
-      : client.uploadFrom(localPath, path.basename(remotePath));
+    return localPath.type === "directory"
+      ? client.uploadFromDir(localPath.absolutePath)
+      : client.uploadFrom(localPath.absolutePath, path.basename(remotePath));
   };
 
   return runCallbackWithFtpClient(connectOptions, uploadWithFtpClient);
