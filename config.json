@@ -6,7 +6,7 @@
   "main": "app.js",
   "imgUrl": "logo.png",
   "version": "2.1.1",
-  "description": "File Transfer Protocol (FTP)",
+  "description": "Upload or Download using File Transfer Protocol",
   "category": [
     "Basic Tools"
   ],
@@ -25,23 +25,37 @@
       {
         "name": "username",
         "viewName": "Username",
-        "type": "string"
+        "type": "string",
+        "required": true,
+        "placeholder": "ftpuser"
       },
       {
         "name": "password",
         "viewName": "Password",
-        "type": "vault"
+        "type": "vault",
+        "required": true
       },
       {
         "name": "host",
         "viewName": "Host",
-        "type": "string"
+        "description": "Host name or IP address of FTP server",
+        "type": "string",
+        "required": true,
+        "placeholder": "ftpserver.kaholodemo.net"
       },
       {
         "name": "port",
         "viewName": "Port",
+        "description": "Port on which FTP server listens (commonly 21)",
         "type": "int",
-        "default": 21
+        "default": 21,
+        "required": true
+      },
+      {
+        "name": "useTls",
+        "viewName": "Use FTP over TLS",
+        "description": "Connect to the FTP server using TLS protocol.",
+        "type": "boolean"
       }
     ]
   },
@@ -53,28 +67,26 @@
         {
           "name": "localPath",
           "viewName": "Local Path",
+          "description": "Path on Kaholo agent to existing file or directory to upload",
           "type": "string",
+          "required": true,
           "parserType": "filePath",
           "parserOptions": {
             "throwIfDoesntExist": true
-          }
+          },
+          "placeholder": "/result/2875881.mp4"
         },
         {
           "name": "remotePath",
           "viewName": "Remote Path",
-          "type": "string"
-        },
-        {
-          "name": "useTls",
-          "viewName": "Use FTP over TLS",
-          "description": "Connect to the FTP server using TLS protocol.",
-          "type": "boolean",
-          "default": true
+          "description": "Path on FTP server to which file or directory is to be uploaded",
+          "type": "string",
+          "placeholder": "/202408/testevidence_2875881.mp4"
         },
         {
           "name": "verboseMode",
           "viewName": "Verbose Mode",
-          "description": "Display verbose log messages providing additional FTP connection info.",
+          "description": "Display verbose messages as the FTP process progresses.",
           "type": "boolean"
         }
       ]
@@ -86,19 +98,15 @@
         {
           "name": "remotePath",
           "viewName": "Remote Path",
-          "type": "string"
-        },
-        {
-          "name": "useTls",
-          "viewName": "Use FTP over TLS",
-          "description": "Connect to the FTP server using TLS protocol.",
-          "type": "boolean",
-          "default": true
+          "description": "Path of file or directory on the FTP server to be removed",
+          "type": "string",
+          "required": true,
+          "placeholder": "upload/staging"
         },
         {
           "name": "verboseMode",
           "viewName": "Verbose Mode",
-          "description": "Display verbose log messages providing additional FTP connection info.",
+          "description": "Display verbose messages as the FTP process progresses.",
           "type": "boolean"
         }
       ]
@@ -110,24 +118,22 @@
         {
           "name": "remotePath",
           "viewName": "Remote File Path",
-          "type": "string"
+          "description": "Path of existing File or Directory on FTP server to download",
+          "type": "string",
+          "required": true,
+          "placeholder": "elftool/binaries/installer.tgz"
         },
         {
           "name": "localPath",
           "viewName": "Local File Path",
-          "type": "string"
-        },
-        {
-          "name": "useTls",
-          "viewName": "Use FTP over TLS",
-          "description": "Connect to the FTP server using TLS protocol.",
-          "type": "boolean",
-          "default": true
+          "description": "Path on Kaholo agent of file or directory to which to download",
+          "type": "string",
+          "placeholder": "elftool.tgz"
         },
         {
           "name": "verboseMode",
           "viewName": "Verbose Mode",
-          "description": "Display verbose log messages providing additional FTP connection info.",
+          "description": "Display verbose messages as the FTP process progresses.",
           "type": "boolean"
         }
       ]
@@ -139,14 +145,9 @@
         {
           "name": "remotePath",
           "viewName": "Remote Path",
-          "type": "string"
-        },
-        {
-          "name": "useTls",
-          "viewName": "Use FTP over TLS",
-          "description": "Connect to the FTP server using TLS protocol.",
-          "type": "boolean",
-          "default": true
+          "description": "Path on FTP server to list",
+          "type": "string",
+          "placeholder": "uploads/2023/10"
         },
         {
           "name": "verboseMode",
